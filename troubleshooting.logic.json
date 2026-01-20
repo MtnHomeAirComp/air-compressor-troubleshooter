@@ -1,0 +1,332 @@
+{
+  "meta": {
+    "system": "Oil-Injected Rotary Screw Air Compressor",
+    "version": "1.0.0",
+    "author": "Mountain Home Air Compressor",
+    "description": "Original troubleshooting decision logic for industrial air compressors",
+    "safety_notice": "Always lock out electrical power and relieve system pressure before inspection."
+  },
+
+  "problems": [
+    {
+      "id": "will_not_start",
+      "title": "Compressor Will Not Start",
+      "steps": [
+        {
+          "id": "power_check",
+          "question": "Is the control panel powered on?",
+          "yes": "alarm_check",
+          "no": {
+            "result": "No control power",
+            "action": "Inspect incoming power, disconnect switch, fuses, and control transformer."
+          }
+        },
+        {
+          "id": "alarm_check",
+          "question": "Is there an active fault or alarm preventing startup?",
+          "yes": {
+            "result": "Startup inhibited by alarm",
+            "action": "Resolve the alarm condition before restarting."
+          },
+          "no": "start_response"
+        },
+        {
+          "id": "start_response",
+          "question": "Does the motor attempt to start?",
+          "yes": "motor_rotation",
+          "no": {
+            "result": "No start response",
+            "action": "Inspect start circuit, contactors, and control wiring."
+          }
+        },
+        {
+          "id": "motor_rotation",
+          "question": "Does the motor rotate?",
+          "yes": {
+            "result": "Electrical or control fault suspected",
+            "action": "Further electrical diagnosis required."
+          },
+          "no": {
+            "result": "Mechanical resistance detected",
+            "action": "Possible seized motor or air-end. Stop operation and call service."
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "high_temperature",
+      "title": "Compressor Running Too Hot",
+      "steps": [
+        {
+          "id": "oil_level",
+          "question": "Is the oil level within the normal operating range?",
+          "yes": "cooler_cleanliness",
+          "no": {
+            "result": "Low oil level",
+            "action": "Add manufacturer-approved compressor oil."
+          }
+        },
+        {
+          "id": "cooler_cleanliness",
+          "question": "Are the oil cooler fins clean and unobstructed?",
+          "yes": "fan_operation",
+          "no": {
+            "result": "Restricted cooling airflow",
+            "action": "Clean oil cooler and surrounding airflow path."
+          }
+        },
+        {
+          "id": "fan_operation",
+          "question": "Is the cooling fan operating correctly?",
+          "yes": "ambient_temp",
+          "no": {
+            "result": "Cooling fan malfunction",
+            "action": "Repair or replace the cooling fan."
+          }
+        },
+        {
+          "id": "ambient_temp",
+          "question": "Is the compressor room excessively hot?",
+          "yes": {
+            "result": "High ambient temperature",
+            "action": "Improve ventilation or add ducting to remove heat."
+          },
+          "no": {
+            "result": "Internal oil flow issue suspected",
+            "action": "Possible thermostat valve or internal restriction. Service required."
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "low_pressure_point_of_use",
+      "title": "Low Pressure at Point of Use",
+      "steps": [
+        {
+          "id": "compare_pressure",
+          "question": "Is pressure normal at the compressor but low at the equipment?",
+          "yes": "filter_dryer",
+          "no": {
+            "result": "Low supply pressure",
+            "action": "Refer to low pressure in compressor room troubleshooting."
+          }
+        },
+        {
+          "id": "filter_dryer",
+          "question": "Are downstream filters or dryers restricted?",
+          "yes": {
+            "result": "Downstream restriction",
+            "action": "Service or replace clogged filters or dryer."
+          },
+          "no": "demand_change"
+        },
+        {
+          "id": "demand_change",
+          "question": "Has air demand increased recently?",
+          "yes": {
+            "result": "System demand exceeds capacity",
+            "action": "Reduce air usage or increase compressor capacity."
+          },
+          "no": {
+            "result": "Distribution system loss",
+            "action": "Inspect piping size, hose lengths, and fittings for pressure loss."
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "low_pressure_compressor_room",
+      "title": "Low Pressure in Compressor Room",
+      "steps": [
+        {
+          "id": "loaded_status",
+          "question": "Is the compressor running fully loaded?",
+          "yes": "multi_compressor",
+          "no": {
+            "result": "Compressor not loading",
+            "action": "Inspect inlet valve operation and control signals."
+          }
+        },
+        {
+          "id": "multi_compressor",
+          "question": "Are all compressors contributing air?",
+          "yes": "air_demand",
+          "no": {
+            "result": "One or more compressors not contributing",
+            "action": "Inspect non-loading units."
+          }
+        },
+        {
+          "id": "air_demand",
+          "question": "Has overall air demand increased?",
+          "yes": {
+            "result": "Excessive air usage",
+            "action": "Reduce demand or add additional capacity."
+          },
+          "no": {
+            "result": "Reduced compressor output",
+            "action": "Inspect inlet and separator filters."
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "oil_in_air",
+      "title": "Oil Present in Compressed Air",
+      "steps": [
+        {
+          "id": "separator_age",
+          "question": "Has the oil separator exceeded its service life?",
+          "yes": {
+            "result": "Worn oil separator",
+            "action": "Replace oil separator element."
+          },
+          "no": "scavenge_line"
+        },
+        {
+          "id": "scavenge_line",
+          "question": "Is oil returning through the scavenge line?",
+          "yes": "oil_level",
+          "no": {
+            "result": "Blocked scavenge system",
+            "action": "Clean scavenge line and orifice."
+          }
+        },
+        {
+          "id": "oil_level",
+          "question": "Is oil filled to the correct level with the correct type?",
+          "yes": {
+            "result": "Internal separation failure",
+            "action": "Further internal inspection required."
+          },
+          "no": {
+            "result": "Oil condition incorrect",
+            "action": "Correct oil type or level."
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "water_in_air",
+      "title": "Water Present in Compressed Air",
+      "steps": [
+        {
+          "id": "drains",
+          "question": "Are condensate drains operating correctly?",
+          "yes": "aftercooler",
+          "no": {
+            "result": "Drain failure",
+            "action": "Clean, repair, or replace condensate drains."
+          }
+        },
+        {
+          "id": "aftercooler",
+          "question": "Is the aftercooler clean and effective?",
+          "yes": "dryer",
+          "no": {
+            "result": "Ineffective aftercooling",
+            "action": "Clean aftercooler and ensure proper airflow."
+          }
+        },
+        {
+          "id": "dryer",
+          "question": "Is the air dryer producing the correct dew point?",
+          "yes": {
+            "result": "Environmental condensation",
+            "action": "Inspect piping for cold spots or inadequate insulation."
+          },
+          "no": {
+            "result": "Dryer malfunction",
+            "action": "Service or repair air dryer."
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "will_not_load",
+      "title": "Compressor Will Not Load",
+      "steps": [
+        {
+          "id": "controller",
+          "question": "Does the controller indicate a load command?",
+          "yes": "solenoid",
+          "no": {
+            "result": "Control logic issue",
+            "action": "Inspect pressure sensors and control settings."
+          }
+        },
+        {
+          "id": "solenoid",
+          "question": "Does the loading solenoid energize?",
+          "yes": "control_air",
+          "no": {
+            "result": "Solenoid failure",
+            "action": "Inspect wiring or replace solenoid."
+          }
+        },
+        {
+          "id": "control_air",
+          "question": "Is control air reaching the inlet valve?",
+          "yes": {
+            "result": "Inlet valve malfunction",
+            "action": "Inspect inlet valve for sticking or leakage."
+          },
+          "no": {
+            "result": "Control air supply issue",
+            "action": "Inspect control air tubing and fittings."
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "overload_trip",
+      "title": "Trips on Overload or Overcurrent",
+      "steps": [
+        {
+          "id": "trip_timing",
+          "question": "Does the trip occur immediately on startup?",
+          "yes": {
+            "result": "Excessive starting load",
+            "action": "Check for flooded compressor or mechanical resistance."
+          },
+          "no": "current_check"
+        },
+        {
+          "id": "current_check",
+          "question": "Is motor current above rated amperage?",
+          "yes": "voltage_balance",
+          "no": {
+            "result": "Faulty overload device",
+            "action": "Inspect or replace overload protection."
+          }
+        },
+        {
+          "id": "voltage_balance",
+          "question": "Are all supply voltages present and balanced?",
+          "yes": {
+            "result": "Mechanical or airflow restriction",
+            "action": "Inspect separator, discharge pressure, and air-end."
+          },
+          "no": {
+            "result": "Electrical supply issue",
+            "action": "Correct incoming power imbalance."
+          }
+        }
+      ]
+    }
+  ],
+
+  "service_contact": {
+    "company": "Mountain Home Air Compressor",
+    "phone": "870-321-4095",
+    "email": "DeltaT@Contractor.net",
+    "instruction": "If the issue persists, contact a qualified technician."
+  }
+}
